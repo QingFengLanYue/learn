@@ -1,9 +1,0 @@
-{
-    "name": "pengjunlee",
-    "age": 32,
-    "vip": true,
-    "address": {
-        "province": "GuangDong",
-        "city": "ShenZhen"
-    }
-}
