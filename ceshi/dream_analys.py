@@ -67,4 +67,63 @@ def cc_plot():
     plt.show()
 
 
-cc_plot()
+def cc_sum():
+    n1 = df.iloc[:, 2:9]
+    n1["总和"] = n1.apply(lambda x: x.sum(), axis=1)
+    return n1
+
+def cc_jo(n1):
+    joj=0
+    joo=0
+    for i in n1['总和'].values:
+        if i%2==0:
+            joo+=1
+        else:
+            joj+=1
+
+    labels = '奇数', '偶数'
+    sizes = joj , joo
+    colors = 'lightgreen','gold'
+    explode = 0.1,0.05
+    plt.pie(sizes,explode=explode, labels=labels,colors=colors, autopct='%1.1f%%', shadow=True, startangle=50)
+    plt.axis('equal')
+    plt.title('奇偶数分布')
+    plt.rcParams['font.sans-serif'] = ['SimHei']
+
+    plt.show()
+
+    #print(pd.cut(n1["总和"],5))
+
+
+def cc_fb(n1):
+    '''
+       (40.855, 70.0] < (70.0, 99.0] < (99.0, 128.0] < (128.0, 157.0] <
+    (157.0, 186.0]
+    '''
+    a1,a2,a3,a4,a5=0,0,0,0,0
+    for i in n1['总和'].values:
+        if i <= 70:
+            a1 += 1
+        elif i<= 99:
+            a2 += 1
+        elif i<= 128:
+            a3 += 1
+        elif i<= 157:
+            a4 += 1
+        elif i<= 186:
+            a5 += 1
+
+    labels = '40.855~70.0', '70.0~99.0','99.0~128.0','128.0~157.0','157.0~186.0'
+    sizes = a1,a2,a3,a4,a5
+    colors = 'lightgreen', 'gold','lightskyblue','lightcoral','blue'
+    explode = 0.1,0.05,0.15,0.1,0.05
+    plt.pie(sizes, explode=explode,labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=50)
+    plt.axis('equal')
+    plt.title('总和区间分布图')
+    plt.rcParams['font.sans-serif'] = ['SimHei']
+
+    plt.show()
+
+n1=cc_sum()
+#cc_jo(n1)
+cc_fb(n1)
