@@ -31,37 +31,40 @@ df['year']=pd.to_datetime(df['date'].values).year
 # n3.plot(kind='box')
 # # n3.plot(kind='kde')
 # #plt.show()
-n3=pd.DataFrame()
-a=pd.to_datetime(df['date'].values).year.drop_duplicates()
-n4=pd.DataFrame()
-for i in a:
-    df1=df.loc[df['year']==i]
-    red1 = df1['red1'].value_counts().sort_index()
-    red2 = df1['red2'].value_counts().sort_index()
-    red3 = df1['red3'].value_counts().sort_index()
-    red4 = df1['red4'].value_counts().sort_index()
-    red5 = df1['red5'].value_counts().sort_index()
-    red6 = df1['red6'].value_counts().sort_index()
-    blue = df1['blue'].value_counts().sort_index()
+def cc_plot():
+    a=pd.to_datetime(df['date'].values).year.drop_duplicates()
+    n4=pd.DataFrame()
+    for i in a:
+        df1=df.loc[df['year']==i]
+        red1 = df1['red1'].value_counts().sort_index()
+        red2 = df1['red2'].value_counts().sort_index()
+        red3 = df1['red3'].value_counts().sort_index()
+        red4 = df1['red4'].value_counts().sort_index()
+        red5 = df1['red5'].value_counts().sort_index()
+        red6 = df1['red6'].value_counts().sort_index()
+        blue = df1['blue'].value_counts().sort_index()
 
-    # print(print(pd.merge(red1,red2)))
-    # print(red1)
-    # col1=pd.DataFrame(red1)
-    # col2=pd.DataFrame(red2)
+        # print(print(pd.merge(red1,red2)))
+        # print(red1)
+        # col1=pd.DataFrame(red1)
+        # col2=pd.DataFrame(red2)
 
-    n1 = pd.concat([red1, red2, red3, red4, red5, red6], axis=1)
-    n2 = n1.fillna(0)
-    n2["总和"] = n2.apply(lambda x: x.sum(), axis=1)
-    n3= pd.DataFrame(n2['总和'].values, columns=[i])
-    #print(n3)
-    #n4=pd.concat([n4,n3],axis=1)
-    n4=n3.join(n4)
-print(n4.fillna(0))
+        n1 = pd.concat([red1, red2, red3, red4, red5, red6], axis=1)
+        n2 = n1.fillna(0)
+        n2["总和"] = n2.apply(lambda x: x.sum(), axis=1)
+        n3= pd.DataFrame(n2['总和'].values, columns=[i])
+        #print(n3)
+        n4=pd.concat([n4,n3],axis=1)
+        #n4=n3.join(n4)
+
+    n4.plot(kind='box')
+
+    n4.plot(kind='bar')
+    n4.plot(kind='area')
+    n4.plot(kind='kde')
+
+    plt.title('Cc Analys')
+    plt.show()
 
 
-n4.plot(kind='box')
-
-n4.plot(kind='bar')
-n4.plot(kind='area')
-n4.plot(kind='kde')
-plt.show()
+cc_plot()
