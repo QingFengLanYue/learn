@@ -13,11 +13,11 @@ def sql_deal(line):
     sql = re.sub(" bigint\(\d+\) ", " int8 ", sql)
     sql = re.sub(" int\(\d+\) ", " int4 ", sql)
     sql = re.sub(" tinyint\(\d+\) ", " int2 ", sql)
-    sql = re.sub(" unsigned ", "", sql)
+    sql = re.sub(" unsigned ", " ", sql)
     sql = re.sub(" COMMENT '.*'","", sql)
 
-    sql = re.sub(" ON UPDATE CURRENT_TIMESTAMP","", sql)
-    sql = re.sub(" DEFAULT CURRENT_TIMESTAMP", "", sql)
+    sql = re.sub(" ON UPDATE CURRENT_TIMESTAMP"," ", sql)
+    sql = re.sub(" DEFAULT CURRENT_TIMESTAMP", " ", sql)
     sql = re.sub(" datetime ", " timestamp ", sql)
     sql = re.sub(" id.*NOT NULL AUTO_INCREMENT*"," id bigserial NOT NULL", sql)
 
@@ -36,7 +36,7 @@ def comment_deal(line):
     comment = line
     table_name = re.search("CREATE TABLE `(.*)` \(", comment).group(1)
     comment_list = re.findall(".* COMMENT .*", comment)
-    comment_sql=""
+    comment_sql="\n"
     for i in comment_list:
         pattern1 = '.*`(.*?)`.*COMMENT (.*?),'
         s = re.compile(pattern=pattern1).search(i).group(1, 2)
@@ -47,4 +47,4 @@ def comment_deal(line):
 
 fname="create_table.sql"
 create_sql,comment_sql=read_file(fname)
-print(create_sql,"\n",comment_sql)
+print(create_sql,comment_sql)
